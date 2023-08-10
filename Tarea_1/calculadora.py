@@ -1,7 +1,8 @@
 import re
 import math
 
-#hola xd
+#lo cambie ahora xd
+
 #re.search(pattern, string): Busca el patrón en toda la cadena y devuelve un objeto Match si encuentra una coincidencia, o None si no la encuentra.
 #
 #re.match(pattern, string): Comprueba si el patrón coincide al principio de la cadena y devuelve un objeto Match o None.
