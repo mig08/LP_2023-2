@@ -1,6 +1,6 @@
 import re
 import math
-
+ANS = 0
 
 
 #re.search(pattern, string): Busca el patrón en toda la cadena y devuelve un objeto Match si encuentra una coincidencia, o None si no la encuentra.
@@ -26,9 +26,16 @@ def op_suma(numeros):
     for i in numeros:
         numero_int = int(i)
         suma_t += numero_int
-    print(suma_t)
+    print(suma_t," suma_t")
+    return suma_t
 
-#def op_resta(x,y):
+def op_resta(numeros):
+    resta_t = 0
+    for i in numeros:
+        numero_int = int(i)
+        resta_t -= numero_int
+    print(resta_t," resta_t")
+    return resta_t
 
 
 #def op_mult(x,y):
@@ -36,7 +43,7 @@ def op_suma(numeros):
 
 #def op_div(x,y):
 
-ANS = 0
+
 
 problemas = open("problemas (EJEMPLO).txt", "r")
 desarollo_txt = open("desarollo.txt", "w")
@@ -57,6 +64,7 @@ for x in lineas:
     divi = re.search(div,x)
     sum = re.search(suma,x)
     res = re.search(resta,x)
+    ans_buscar = re.search(s_ans,x)
     if multi:
         numeros = (re.findall(num,x))
         #numero_int = int(numeros)
@@ -87,17 +95,31 @@ for x in lineas:
             #numero_int = int(numeros)
             print(numeros2, "resta en multi xd")
     elif sum:
+        res = re.search(resta,x)
         numeros = (re.findall(num,x))
         print(numeros,"suma xd")
-        op_suma(numeros)
+        ANS+=op_suma(numeros)
+        print(ANS," ans suma")
+        if res:
+            numeros2 = (re.findall(num,x))
+            if ans_buscar:
+                numeros2.insert(0,ANS)
+            print(numeros2, "resta en sum xd")
+            ANS -= op_resta(numeros2)
         
     elif res:
         numeros = (re.findall(num,x))
         #numero_int = int(numeros)
         print(numeros, "resta xd")
+        sum = re.search(suma,x)
+        if sum:
+            numeros2 = (re.findall(num,x))
+            #numero_int = int(numeros)
+            print(numeros2,"suma en resta xd")
 
     elif x == "\n":
         print("se acaba")
+        print(ANS, "ans xdd")
         ANS = 0
     
 
@@ -124,11 +146,3 @@ def CUPON(x,y):
     else:
         return "error"
     
-
-
-
-
-    
-
-
-
