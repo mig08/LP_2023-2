@@ -1,7 +1,7 @@
 import re
 import math
 
-#lo cambie ahora xd
+
 
 #re.search(pattern, string): Busca el patrón en toda la cadena y devuelve un objeto Match si encuentra una coincidencia, o None si no la encuentra.
 #
@@ -27,6 +27,14 @@ def op_suma(numeros):
         numero_int = int(i)
         suma_t += numero_int
     print(suma_t)
+
+#def op_resta(x,y):
+
+
+#def op_mult(x,y):
+
+
+#def op_div(x,y):
 
 ANS = 0
 
@@ -79,7 +87,6 @@ for x in lineas:
             #numero_int = int(numeros)
             print(numeros2, "resta en multi xd")
     elif sum:
-        suma_t = 0
         numeros = (re.findall(num,x))
         print(numeros,"suma xd")
         op_suma(numeros)
@@ -99,13 +106,6 @@ for x in lineas:
 
 
 
-#def op_resta(x,y):
-
-
-#def op_mult(x,y):
-
-
-#def op_div(x,y):
 
 
 
