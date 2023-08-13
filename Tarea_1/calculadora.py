@@ -1,6 +1,6 @@
 import re
 import math
-ANS = 0
+
 
 
 #re.search(pattern, string): Busca el patrón en toda la cadena y devuelve un objeto Match si encuentra una coincidencia, o None si no la encuentra.
@@ -21,118 +21,6 @@ ANS = 0
 #
 #Match objects: Los objetos devueltos por las funciones anteriores contienen información sobre la coincidencia, como el texto coincidente, la posición y otros detalles.
 
-def op_suma(numeros):
-    suma_t = 0
-    for i in numeros:
-        numero_int = int(i)
-        suma_t += numero_int
-    print(suma_t," suma_t")
-    return suma_t
-
-def op_resta(numeros):
-    resta_t = 0
-    for i in numeros:
-        numero_int = int(i)
-        resta_t -= numero_int
-    print(resta_t," resta_t")
-    return resta_t
-
-
-#def op_mult(x,y):
-
-
-#def op_div(x,y):
-
-
-
-problemas = open("problemas (EJEMPLO).txt", "r")
-desarollo_txt = open("desarollo.txt", "w")
-lineas = problemas.readlines()
-print(lineas)
-
-salto = r"\n"
-suma = r"\+"
-resta = r"-"
-mult = r"\*"
-div = r"//"
-num = r'\d+' #Encontrar digitos
-s_ans = r"ANS"
-parentesis_1 = r"("
-
-for x in lineas:
-    multi = re.search(mult,x)
-    divi = re.search(div,x)
-    sum = re.search(suma,x)
-    res = re.search(resta,x)
-    ans_buscar = re.search(s_ans,x)
-    if multi:
-        numeros = (re.findall(num,x))
-        #numero_int = int(numeros)
-        print(numeros, "multi xd")
-        sum = re.search(suma,x)
-        res = re.search(resta,x)
-        if sum:
-            numeros2 = (re.findall(num,x))
-            #numero_int = int(numeros)
-            print(numeros2,"suma en multi xd")
-        if res:
-            numeros2 = (re.findall(num,x))
-            #numero_int = int(numeros)
-            print(numeros2, "resta en multi xd")
-
-    elif divi:
-        numeros = (re.findall(num,x))
-        #numero_int = int(numeros)
-        print(numeros, "divi xd")
-        sum = re.search(suma,x)
-        res = re.search(resta,x)
-        if sum:
-            numeros2 = (re.findall(num,x))
-            #numero_int = int(numeros)
-            print(numeros2,"suma en multi xd")
-        if res:
-            numeros2 = (re.findall(num,x))
-            #numero_int = int(numeros)
-            print(numeros2, "resta en multi xd")
-    elif sum:
-        res = re.search(resta,x)
-        numeros = (re.findall(num,x))
-        print(numeros,"suma xd")
-        ANS+=op_suma(numeros)
-        print(ANS," ans suma")
-        if res:
-            numeros2 = (re.findall(num,x))
-            if ans_buscar:
-                numeros2.insert(0,ANS)
-            print(numeros2, "resta en sum xd")
-            ANS -= op_resta(numeros2)
-        
-    elif res:
-        numeros = (re.findall(num,x))
-        #numero_int = int(numeros)
-        print(numeros, "resta xd")
-        sum = re.search(suma,x)
-        if sum:
-            numeros2 = (re.findall(num,x))
-            #numero_int = int(numeros)
-            print(numeros2,"suma en resta xd")
-
-    elif x == "\n":
-        print("se acaba")
-        print(ANS, "ans xdd")
-        ANS = 0
-    
-
-
-   
-
-
-
-
-
-
-
-
 def CUPON(x):
     resultado = x*0.20
     resultado = {math.trunc(resultado)}
@@ -146,3 +34,144 @@ def CUPON(x,y):
     else:
         return "error"
     
+
+
+   
+
+#def op_resta(x,y):
+
+
+#def op_mult(x,y):
+
+
+#def op_div(x,y):
+
+ANS = 0
+
+problemas = open("problemas (EJEMPLO).txt", "r")
+desarollo_txt = open("desarollo.txt", "w")
+lineas = problemas.readlines()
+print(lineas)
+
+digito = r'[1-9]' 
+digito_o_zero = rf'{digito}|0'
+entero = r'(?:[1-9][0-9]*|0)'
+espacio = r'‘ ‘'
+operador = r'\s*(-|\+|\*|//)\s*'
+s_ans = r"ANS"
+#operacion = r'(\d+)\s*([+-/*])\s*(\d+)\n'
+operacion = rf'({s_ans}|{entero})\s*({operador})\s*({s_ans}|{entero})'
+sentencia = rf'({operacion})(?:{operador}({s_ans}|{entero}))*'
+salto = r"\n"
+
+# Expresión regular compuesta
+#expresion_completa = rf'({numero_expresion})\s*({apple_expresion})'
+
+def op_suma(linea):
+    for x in linea:
+        for y in x:
+            print(y, "veamos si funciona")
+    
+   
+    
+
+for x in lineas:
+    resultado = re.search(sentencia, x)
+    salto_encontrado = re.search(salto,x)
+    if resultado:
+        elemento1 = resultado.group()
+        print(elemento1," ele 1")
+        elemento_lista = re.findall(operacion,x)
+        print(elemento_lista, " supuesta lista")
+        op_suma(elemento_lista)
+    elif salto:
+        print("salto xd")
+        ANS = 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#for x in lineas:
+#    multi = re.search(mult,x)
+#    divi = re.search(div,x)
+#    sum = re.search(suma,x)
+#    res = re.search(resta,x)
+#    if multi:
+#        numeros = (re.findall(num,x))
+#        #numero_int = int(numeros)
+#        print(numeros, "multi xd")
+#        sum = re.search(suma,x)
+#        res = re.search(resta,x)
+#        if sum:
+#            numeros2 = (re.findall(num,x))
+#            #numero_int = int(numeros)
+#            print(numeros2,"suma en multi xd")
+#        if res:
+#            numeros2 = (re.findall(num,x))
+#            #numero_int = int(numeros)
+#            print(numeros2, "resta en multi xd")
+#
+#    elif divi:
+#        numeros = (re.findall(num,x))
+##        #numero_int = int(numeros)
+#        print(numeros, "divi xd")
+#        sum = re.search(suma,x)
+#        res = re.search(resta,x)
+#        if sum:
+#            numeros2 = (re.findall(num,x))
+#            #numero_int = int(numeros)
+#            print(numeros2,"suma en multi xd")
+#        if res:
+#            numeros2 = (re.findall(num,x))
+#            #numero_int = int(numeros)
+#            print(numeros2, "resta en multi xd")
+#    elif sum:
+#        numeros = (re.findall(num,x))
+#        print(numeros,"suma xd")
+##       op_suma(numeros)
+#        
+##    elif res:
+##        numeros = (re.findall(num,x))
+#        #numero_int = int(numeros)
+##        print(numeros, "resta xd")
+#
+#    elif x == "\n":
+#        print("se acaba")
+#        ANS = 0
+    
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
