@@ -56,34 +56,84 @@ print(lineas)
 digito = r'[1-9]' 
 digito_o_zero = rf'{digito}|0'
 entero = r'(?:[1-9][0-9]*|0)'
-espacio = r'‘ ‘'
-operador = r'\s*(-|\+|\*|//)\s*'
-s_ans = r"ANS"
+espacio = r'‘ ‘' 
+operador = r'\s*([-+*/]{1,2})\s*'
+s_ans = r'ANS\s*'
 #operacion = r'(\d+)\s*([+-/*])\s*(\d+)\n'
 operacion = rf'({s_ans}|{entero})\s*({operador})\s*({s_ans}|{entero})'
-sentencia = rf'({operacion})(?:{operador}({s_ans}|{entero}))*'
+#operacion = r'^(ANS|\d+)\s*([-+*/]{1,2})\s*(ANS|\d+)$'
+sentencia = rf'({operacion})(?:{operador}({s_ans}|{entero})*)'
+#sentencia = r'^\s*(ANS|\d+)\s*([-+*/]{1,2})\s*((\d+)|(ANS))\s*$'
+sentencia = r'^\s*(ANS|\d+)\s*([-+*/]{1,2})\s*((?:\d+)|(?:ANS))\s*(?:([-+*/]{1,2})\s*((?:\d+)|(?:ANS))\s*)*$'
+#sentencia = r'\s*(ANS|\d+)\s*([-+*/]{1,2})\s*((?:\d+)|(?:ANS))\s*'
+#sentencia = rf'{operacion}(?:({operador}({entero}|{s_ans}))*)'
+#sentencia = rf'{operacion}({operador}(({entero})|({s_ans})))*'
 salto = r"\n"
+sent = re.compile(sentencia)
+operador_str = re.compile(operador)
+suma_ex = r'\+'
+multi_ex = r'\*'
+resta_ex = r'-'
+busca_suma = r's'
+busca_multi = r'm'
+busca_resta = r'resta'
+busca_divi = r'divi'
 
 # Expresión regular compuesta
 #expresion_completa = rf'({numero_expresion})\s*({apple_expresion})'
 
-def op_suma(linea):
-    for x in linea:
-        for y in x:
-            print(y, "veamos si funciona")
+def resolver(linea):
+    mini_ans = r'A'
+    total = 0
+    numero_final = ""
+    num = 0
+    num_ant = 0
+    lista_num = []
+    for lineas in linea:
+        suma_cambio = re.sub(suma_ex,"s",linea)
+        nueva_linea = re.sub(multi_ex,"m",suma_cambio)
+        #print(nueva_linea,"aqui full cambio")
     
-   
-    
+    for x in nueva_linea:
+        numeros = (re.findall(entero,x))
+        ans_encontrado = re.match(mini_ans,x)
+
+        if ans_encontrado:                           #añadir valor de ans a la lista
+            lista_num.append(ANS)
+
+        if len(numeros) == 0 and numero_final != '': #agregar numeros a la lista
+            num = int(numero_final)
+            lista_num.append(num)
+            if len(lista_num) != 0:
+                num_ant = lista_num[len(lista_num)-2]
+            numero_final = ""
+
+        for digito in numeros:
+            numero_final += digito
+
+        for ope in x:
+            if ope == "s":
+                print(num_ant,"num ant en suma")
+                total += num_ant
+                #print("entre en suma")
+
+            elif ope == "-":
+                print(num_ant, "num ant en resta")
+                total -= num_ant
+                #print("entre en resta")
+
+    print(total, "aqui el total")
+    print(lista_num)
+
 
 for x in lineas:
     resultado = re.search(sentencia, x)
     salto_encontrado = re.search(salto,x)
     if resultado:
         elemento1 = resultado.group()
-        print(elemento1," ele 1")
-        elemento_lista = re.findall(operacion,x)
-        print(elemento_lista, " supuesta lista")
-        op_suma(elemento_lista)
+        elemento_lista = re.finditer(sentencia,x)
+        print(elemento1)
+        resolver(elemento1)
     elif salto:
         print("salto xd")
         ANS = 0
