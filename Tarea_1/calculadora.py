@@ -1,5 +1,6 @@
 import re
 import math
+from collections import deque
 
 
 
@@ -74,11 +75,13 @@ operador_str = re.compile(operador)
 suma_ex = r'\+'
 multi_ex = r'\*'
 resta_ex = r'-'
-busca_suma = r's'
+busca_su_res = r's|\-'
 busca_multi = r'm'
 busca_resta = r'resta'
 busca_divi = r'divi'
-
+cola_numero= deque()
+cola_operacion = deque()
+resultados_finales = deque()
 # Expresión regular compuesta
 #expresion_completa = rf'({numero_expresion})\s*({apple_expresion})'
 
@@ -88,42 +91,69 @@ def resolver(linea):
     numero_final = ""
     num = 0
     num_ant = 0
+    n = 1
     lista_num = []
+    linea = linea
+    #print(linea, 'esto quiero ver')
     for lineas in linea:
         suma_cambio = re.sub(suma_ex,"s",linea)
         nueva_linea = re.sub(multi_ex,"m",suma_cambio)
-        #print(nueva_linea,"aqui full cambio")
     
-    for x in nueva_linea:
-        numeros = (re.findall(entero,x))
-        ans_encontrado = re.match(mini_ans,x)
+   # for x in nueva_linea:
+    numeros = (re.findall(entero,nueva_linea))
+    #print(numeros, 'aaaaa')
+    while n != 0:
+        for valor in numeros:
+            valor = int(valor)
+            cola_numero.append(valor)
+        if len(resultados_finales) != 0 :
+            numero_1 = resultados_finales.popleft()
+        else:
+            numero_1 = cola_numero.popleft()
+        nuemero_2 = cola_numero.popleft()
+        if re.search(busca_su_res, nueva_linea) is not None:
+            operaciones = re.findall(busca_su_res, nueva_linea)
+            for x in operaciones:
+                cola_operacion.append(x)
+            if len(cola_operacion) != 0:
+                oper = cola_operacion.popleft()
+                if oper == 's':
+                    numero = numero_1 + nuemero_2
+                    resultados_finales.append(numero)
+                elif oper == "-":
+                    numero = numero_1 - nuemero_2
+                    resultados_finales.append(numero)
+            elif len(cola_operacion) == 0:
+                print(resultados_finales, 'resultado final')
+                n = 0            
+    #ans_encontrado = re.match(mini_ans,x)
 
-        if ans_encontrado:                           #añadir valor de ans a la lista
-            lista_num.append(ANS)
+    #if ans_encontrado:                           #añadir valor de ans a la lista
+    #    lista_num.append(ANS)
 
-        if len(numeros) == 0 and numero_final != '': #agregar numeros a la lista
-            num = int(numero_final)
-            lista_num.append(num)
-            if len(lista_num) != 0:
-                num_ant = lista_num[len(lista_num)-2]
-            numero_final = ""
+    if len(numeros) == 0 and numero_final != '': #agregar numeros a la lista
+        num = int(numero_final)
+        lista_num.append(num)
+        if len(lista_num) != 0:
+            num_ant = lista_num[len(lista_num)-2]
+        numero_final = ""
 
-        for digito in numeros:
-            numero_final += digito
+    for digito in numeros:
+        numero_final += digito
 
-        for ope in x:
-            if ope == "s":
-                print(num_ant,"num ant en suma")
-                total += num_ant
-                #print("entre en suma")
+    #for ope in x:
+    #    if ope == "s":
+    #        #print(num_ant,"num ant en suma")
+    #        total += num_ant
+    #        #print("entre en suma")
+#
+    #    elif ope == "-":
+    #        #print(num_ant, "num ant en resta")
+    #        total -= num_ant
+     #       #print("entre en resta")
+    WA = resultados_finales.popleft()
+    print(WA, 'ressultado final de la operacion')
 
-            elif ope == "-":
-                print(num_ant, "num ant en resta")
-                total -= num_ant
-                #print("entre en resta")
-
-    print(total, "aqui el total")
-    print(lista_num)
 
 
 for x in lineas:
@@ -132,8 +162,8 @@ for x in lineas:
     if resultado:
         elemento1 = resultado.group()
         elemento_lista = re.finditer(sentencia,x)
-        print(elemento1)
         resolver(elemento1)
+        print('termine una linea')
     elif salto:
         print("salto xd")
         ANS = 0
