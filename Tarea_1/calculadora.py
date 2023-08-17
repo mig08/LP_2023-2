@@ -89,6 +89,7 @@ resultados_finales = deque()
 ANS = 0
 
 def resolver(linea):
+    linea_inicial = ""
     global ANS
     string_ans = str(ANS)
     total = 0
@@ -99,7 +100,7 @@ def resolver(linea):
         suma_cambio = re.sub(suma_ex,"s",linea)
         ans_cambio = re.sub(s_ans, string_ans, suma_cambio)
         nueva_linea = re.sub(multi_ex,"m",ans_cambio)
-    print(nueva_linea,"soy nueva linea")
+    
    # for x in nueva_linea:
     numeros = (re.findall(entero,nueva_linea))
     #print(numeros, 'aaaaa')
@@ -107,7 +108,7 @@ def resolver(linea):
     for valor in numeros:
         valor = int(valor)
         cola_numero.append(valor)
-    print(cola_numero,"soy cola numero")
+    
 
     if re.search(busca_op, nueva_linea) is not None:
         operaciones = re.findall(busca_op, nueva_linea)
@@ -115,21 +116,20 @@ def resolver(linea):
                 cola_operacion.append(x)
                 
 
-    print(cola_operacion,"aqui cola ope")
 
     while len(cola_operacion) != 0:
         oper = cola_operacion.popleft()
 
         if len(resultados_finales) != 0 :
             numero_1 = resultados_finales.popleft()
-            print(numero_1,"soy numero 1")
+            
             numero_2 = cola_numero.popleft()
-            print(numero_2,"soy numero 2")
+            
         else:
             numero_1 = cola_numero.popleft()
-            print(numero_1,"soy numero 1")
+            
             numero_2 = cola_numero.popleft()
-            print(numero_2,"soy numero 2")
+
 
         if oper == "m":
             numero = numero_1 * numero_2
@@ -141,14 +141,13 @@ def resolver(linea):
             
             if len(resultados_finales) != 0 :
                 numero_1 = resultados_finales.popleft()
-                print(numero_1,"soy numero 1")
+                
                 numero_2 = cola_numero.popleft()
-                print(numero_2,"soy numero 2")
             else:
                 numero_1 = cola_numero.popleft()
-                print(numero_1,"soy numero 1")
+                
                 numero_2 = cola_numero.popleft()
-                print(numero_2,"soy numero 2")
+                
             if oper == "s":
                 numero = numero_1 + numero_2
                 resultados_finales.append(numero)
@@ -193,9 +192,18 @@ def resolver(linea):
     #        #print(num_ant, "num ant en resta")
     #        total -= num_ant
      #       #print("entre en resta")
+
+    for x in linea:
+        if x != "\n":
+            linea_inicial += x
+    
     ANS = resultados_finales.popleft()
-    print(ANS, "soy ans")
+    string_ans = str(ANS)
     print(ANS, 'resultado final de la operacion')
+    desarollo_txt.write(linea_inicial)
+    desarollo_txt.write(" = ")
+    desarollo_txt.write(string_ans)
+    desarollo_txt.write("\n")
     while resultados_finales:
         elemento = resultados_finales.popleft()
     while cola_numero:
@@ -212,11 +220,13 @@ for x in lineas:
         resolver(elemento1)
         print('termine una linea')
     elif salto:
+        desarollo_txt.write("\n")
         print("salto xd")
         ANS = 0
 
 
-
+problemas.close()
+desarollo_txt.close()
 
 
 
