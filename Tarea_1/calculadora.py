@@ -2,26 +2,6 @@ import re
 import math
 from collections import deque
 
-
-
-#re.search(pattern, string): Busca el patrón en toda la cadena y devuelve un objeto Match si encuentra una coincidencia, o None si no la encuentra.
-#
-#re.match(pattern, string): Comprueba si el patrón coincide al principio de la cadena y devuelve un objeto Match o None.
-#
-#re.fullmatch(pattern, string): Comprueba si el patrón coincide con toda la cadena y devuelve un objeto Match o None.
-
-#re.findall(pattern, string): Encuentra todas las ocurrencias del patrón en la cadena y devuelve una lista de coincidencias.
-#
-#re.finditer(pattern, string): Encuentra todas las ocurrencias del patrón en la cadena y devuelve un iterador de objetos Match.
-#
-#re.sub(pattern, replacement, string): Reemplaza todas las ocurrencias del patrón en la cadena con la cadena de reemplazo.
-#
-#re.split(pattern, string): Divide la cadena en partes utilizando el patrón como delimitador y devuelve una lista de partes.
-#
-#re.compile(pattern): Compila el patrón en un objeto de expresión regular, lo que permite mejorar el rendimiento al reutilizar el patrón en múltiples operaciones.
-#
-#Match objects: Los objetos devueltos por las funciones anteriores contienen información sobre la coincidencia, como el texto coincidente, la posición y otros detalles.
-
 def CUPON(x):
     resultado = x*0.20
     resultado = {math.trunc(resultado)}
@@ -36,20 +16,7 @@ def CUPON(x,y):
         return "error"
     
 
-
-   
-
-#def op_resta(x,y):
-
-
-#def op_mult(x,y):
-
-
-#def op_div(x,y):
-
-
-
-problemas = open("problemas (EJEMPLO).txt", "r")
+problemas = open("problemas.txt", "r")
 desarollo_txt = open("desarollo.txt", "w")
 lineas = problemas.readlines()
 print(lineas)
@@ -60,54 +27,50 @@ entero = r'(?:[1-9][0-9]*|0)'
 espacio = r'‘ ‘' 
 operador = r'\s*([-+*]|//)\s*'
 s_ans = r'ANS\s*'
-#operacion = r'(\d+)\s*([+-/*])\s*(\d+)\n'
 operacion = rf'({s_ans}|{entero})\s*({operador})\s*({s_ans}|{entero})'
-#operacion = r'^(ANS|\d+)\s*([-+*/]{1,2})\s*(ANS|\d+)$'
-sentencia = rf'({operacion})(?:{operador}({s_ans}|{entero})*)'
-#sentencia = r'^\s*(ANS|\d+)\s*([-+*/]{1,2})\s*((\d+)|(ANS))\s*$'
-#sentencia = r'^\s*(ANS|\d+)\s*([-+*]|//)\s*((?:\d+)|(?:ANS))\s*(?:([-+*]|//)\s*((?:\d+)|(?:ANS))\s*)*$'
-##sentencia = r'^\s*(ANS|[1-9][0-9]*|0)\s*([-+*]|//)\s*((?:[1-9][0-9]*|0)|(?:ANS))\s*(?:([-+*]|//)\s*((?:[1-9][0-9]*|0)|(?:ANS))\s*)*$'
 sentencia = r'^\s*(ANS|[1-9][0-9]*|0)\s*(-|\+|\*|//)\s*((?:[1-9][0-9]*|0)|(?:ANS))\s*(?:(-|\+|\*|//)\s*((?:[1-9][0-9]*|0)|(?:ANS))\s*)*$'
-#sentencia = r'\s*(ANS|\d+)\s*([-+*/]{1,2})\s*((?:\d+)|(?:ANS))\s*'
-#sentencia = rf'{operacion}(?:({operador}({entero}|{s_ans}))*)'
-#sentencia = rf'{operacion}({operador}(({entero})|({s_ans})))*'
 salto = r"\n"
-sent = re.compile(sentencia)
-operador_str = re.compile(operador)
 suma_ex = r'\+'
 multi_ex = r'\*'
 resta_ex = r'-'
 busca_op = r's|\-|m|//'
-busca_multi = r'm'
-
 cola_numero= deque()
 cola_operacion = deque()
 resultados_finales = deque()
-# Expresión regular compuesta
-#expresion_completa = rf'({numero_expresion})\s*({apple_expresion})'
 
 ANS = 0
 
 def resolver(linea):
+#‘’’
+#***
+#* parametro_1: linea, es el string reconocido por la expresion regular 
+#* 
+#* …
+#***
+#Breve descripción de qué hace la función y qué retorna.
+#Esta funcion lo que hace es que resuelve la linea identificada con los calculos necesarios y los escribe en el archivo de texto desarrollos.txt
+#No retorna nada
+#‘’’
+
     linea_inicial = ""
+    linea_error = ""
     global ANS
     string_ans = str(ANS)
     total = 0
     numero_final = ""
-    lista_num = []
-    #print(linea, 'esto quiero ver')
+    flag_error = False
+
     for lineas in linea:
         suma_cambio = re.sub(suma_ex,"s",linea)
         ans_cambio = re.sub(s_ans, string_ans, suma_cambio)
         nueva_linea = re.sub(multi_ex,"m",ans_cambio)
     
-   # for x in nueva_linea:
     numeros = (re.findall(entero,nueva_linea))
-    #print(numeros, 'aaaaa')
  
     for valor in numeros:
         valor = int(valor)
         cola_numero.append(valor)
+    print(cola_numero,"cola numero")
     
 
     if re.search(busca_op, nueva_linea) is not None:
@@ -116,24 +79,45 @@ def resolver(linea):
                 cola_operacion.append(x)
                 
 
+    print(cola_operacion, "cola operacion antes de entrar")
+    while len(cola_operacion) != 0 and flag_error is False:
+        if ANS == "error":
+            for x in linea:
+                if x != "\n":
+                    linea_error += x
 
-    while len(cola_operacion) != 0:
+            desarollo_txt.write(linea_error)
+            desarollo_txt.write(" = ")
+            desarollo_txt.write("Sin resolver")
+            desarollo_txt.write("\n")
+
+
+            while cola_operacion:
+                oper = cola_operacion.popleft()
+            break
         oper = cola_operacion.popleft()
 
         if len(resultados_finales) != 0 :
             numero_1 = resultados_finales.popleft()
-            
             numero_2 = cola_numero.popleft()
             
         else:
             numero_1 = cola_numero.popleft()
             
             numero_2 = cola_numero.popleft()
-
-
+        print(cola_operacion, "cola operacion")
+        print(oper,"oper")
         if oper == "m":
+            print(resultados_finales,"resultado finales")
+            print(cola_numero,"cola numero en m")
+            print(cola_operacion, "cola operacion")
             numero = numero_1 * numero_2
+            print(numero,"numero")
+            if numero < 0:
+                numero = 0
             resultados_finales.append(numero)
+
+
             if len(cola_operacion) != 0:
                 oper = cola_operacion.popleft()
             else:
@@ -150,60 +134,88 @@ def resolver(linea):
                 
             if oper == "s":
                 numero = numero_1 + numero_2
+                if numero < 0:
+                    numero = 0
                 resultados_finales.append(numero)
             elif oper == "-":
                 numero = numero_1 - numero_2
+                if numero < 0:
+                    numero = 0
                 resultados_finales.append(numero)
 
         elif oper == "//":
-            numero = int(numero_1/numero_2)
-            resultados_finales.append(numero)
+            if numero_2 != 0:
+                numero = int(numero_1/numero_2)
+                if numero < 0:
+                    numero = 0
+                resultados_finales.append(numero)
+                if len(cola_operacion) != 0:
+                    oper = cola_operacion.popleft()
+                else:
+                    break
+            
+                if len(resultados_finales) != 0 :
+                    numero_1 = resultados_finales.popleft()
+                
+                    numero_2 = cola_numero.popleft()
+                else:
+                    numero_1 = cola_numero.popleft()
+                
+                    numero_2 = cola_numero.popleft()
+                
+                if oper == "s":
+                    numero = numero_1 + numero_2
+                    if numero < 0:
+                        numero = 0
+                    resultados_finales.append(numero)
+                elif oper == "-":
+                    numero = numero_1 - numero_2
+                    if numero < 0:
+                        numero = 0
+                    resultados_finales.append(numero)
+            else:
+                for x in linea:
+                    if x != "\n":
+                        linea_error += x
 
+                desarollo_txt.write(linea_error)
+                desarollo_txt.write(" = ")
+                desarollo_txt.write("Error")
+                desarollo_txt.write("\n")
+                ANS = "error"
+                while cola_operacion:
+                    oper = cola_operacion.popleft()
+                    print(cola_operacion,"dentro del while")
+                    
+                flag_error = True
+
+            
         elif oper == "s":
             numero = numero_1 + numero_2
+            if numero < 0:
+                numero = 0
             resultados_finales.append(numero)
+
         elif oper == "-":
             numero = numero_1 - numero_2
+            if numero < 0:
+                numero = 0
             resultados_finales.append(numero)
 
-      
-    
-    #ans_encontrado = re.match(mini_ans,x)
-    #if ans_encontrado:                           #añadir valor de ans a la lista
-    #    lista_num.append(ANS)
-
-    if len(numeros) == 0 and numero_final != '': #agregar numeros a la lista
-        num = int(numero_final)
-        lista_num.append(num)
-        if len(lista_num) != 0:
-            num_ant = lista_num[len(lista_num)-2]
-        numero_final = ""
-
-    for digito in numeros:
-        numero_final += digito
-
-    #for ope in x:
-    #    if ope == "s":
-    #        #print(num_ant,"num ant en suma")
-    #        total += num_ant
-    #        #print("entre en suma")
-#
-    #    elif ope == "-":
-    #        #print(num_ant, "num ant en resta")
-    #        total -= num_ant
-     #       #print("entre en resta")
 
     for x in linea:
         if x != "\n":
             linea_inicial += x
-    
-    ANS = resultados_finales.popleft()
-    string_ans = str(ANS)
-    print(ANS, 'resultado final de la operacion')
-    desarollo_txt.write(linea_inicial)
-    desarollo_txt.write(" = ")
-    desarollo_txt.write(string_ans)
-    desarollo_txt.write("\n")
+
+    if len(resultados_finales) != 0:    
+        ANS = resultados_finales.popleft()
+        string_ans = str(ANS)
+        print(ANS, 'resultado final de la operacion')
+        desarollo_txt.write(linea_inicial)
+        desarollo_txt.write(" = ")
+        desarollo_txt.write(string_ans)
+        desarollo_txt.write("\n")
+        
     while resultados_finales:
         elemento = resultados_finales.popleft()
     while cola_numero:
@@ -215,10 +227,11 @@ for x in lineas:
     resultado = re.search(sentencia, x)
     salto_encontrado = re.search(salto,x)
     if resultado:
-        elemento1 = resultado.group()
-        elemento_lista = re.finditer(sentencia,x)
-        resolver(elemento1)
+        elemento = resultado.group()
+        print(elemento,"aqui elemento")
+        resolver(elemento)
         print('termine una linea')
+
     elif salto:
         desarollo_txt.write("\n")
         print("salto xd")
@@ -227,97 +240,4 @@ for x in lineas:
 
 problemas.close()
 desarollo_txt.close()
-
-
-
-
-#        while n != 0:
-#            if len(cola_operacion) != 0:
-# #               oper = cola_operacion.popleft()
-#                if oper == 's':
-#                    numero = numero_1 + numero_2
-#                    resultados_finales.append(numero)
-#                elif oper == "-":
- #                   numero = numero_1 - numero_2
-#                    resultados_finales.append(numero)
-#            elif len(cola_operacion) == 0:
-#                print(resultados_finales, 'resultado final')
-#                n = 0      
-
-
-
-
-
-
-
-
-
-
-
-
-#for x in lineas:
-#    multi = re.search(mult,x)
-#    divi = re.search(div,x)
-#    sum = re.search(suma,x)
-#    res = re.search(resta,x)
-#    if multi:
-#        numeros = (re.findall(num,x))
-#        #numero_int = int(numeros)
-#        print(numeros, "multi xd")
-#        sum = re.search(suma,x)
-#        res = re.search(resta,x)
-#        if sum:
-#            numeros2 = (re.findall(num,x))
-#            #numero_int = int(numeros)
-#            print(numeros2,"suma en multi xd")
-#        if res:
-#            numeros2 = (re.findall(num,x))
-#            #numero_int = int(numeros)
-#            print(numeros2, "resta en multi xd")
-#
-#    elif divi:
-#        numeros = (re.findall(num,x))
-##        #numero_int = int(numeros)
-#        print(numeros, "divi xd")
-#        sum = re.search(suma,x)
-#        res = re.search(resta,x)
-#        if sum:
-#            numeros2 = (re.findall(num,x))
-#            #numero_int = int(numeros)
-#            print(numeros2,"suma en multi xd")
-#        if res:
-#            numeros2 = (re.findall(num,x))
-#            #numero_int = int(numeros)
-#            print(numeros2, "resta en multi xd")
-#    elif sum:
-#        numeros = (re.findall(num,x))
-#        print(numeros,"suma xd")
-##       op_suma(numeros)
-#        
-##    elif res:
-##        numeros = (re.findall(num,x))
-#        #numero_int = int(numeros)
-##        print(numeros, "resta xd")
-#
-#    elif x == "\n":
-#        print("se acaba")
-#        ANS = 0
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
 
