@@ -19,6 +19,7 @@ int main(int argc, char const *argv[])
     IniciarTablero(tam);
     MostrarTablero();
     ColocarBomba(&b, 4, 6);
+    ColocarBomba(&b, 1, 1);
     printf("\n");
     MostrarTablero();
     printf("\n");

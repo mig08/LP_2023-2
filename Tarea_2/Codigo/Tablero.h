@@ -3,11 +3,13 @@
 #include "Bomba.h"
 #include <stdlib.h>
 
+/*
 typedef struct Celda{
-    Bomba bomb;
-    Tierra tierra_celda;
+    Bomba* bomb;
+    Tierra* tierra_celda;
     int tiene_bomba;
 } Celda;
+*/
 
 void*** tablero;
 int dimension; // 7 en 7x7, 10 en 10x10, 12 en 12x12

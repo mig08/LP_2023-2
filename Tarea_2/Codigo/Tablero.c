@@ -8,12 +8,17 @@ void IniciarTablero(int n){
     for (int i = 0; i < n; i++){
         tablero[i] = (void**)malloc(n * sizeof(void*));
         for (int j = 0; j < n; j++){
-            tablero[i][j] = (void*)malloc(n * sizeof(Celda*));
-            Celda* celda = (Celda*)tablero[i][j];
+            tablero[i][j] = (void*)malloc(n * sizeof(Bomba*));
+            
+            Bomba* celda = (Bomba*)tablero[i][j];
+
+            celda->tierra_debajo = (Tierra*)malloc(sizeof(Tierra));
+            //Celda* celda = (Celda*)tablero[i][j];
+            
             //((Tierra*)tablero[i][j])->vida = (rand() % 3) + 1;
-            celda->tierra_celda.vida = (rand() % 3) + 1;
+            celda->tierra_debajo->vida = (rand() % 3) + 1;
             //((Tierra*)tablero[i][j])->es_tesoro = ((rand() % 100) < 5);
-            celda->tierra_celda.es_tesoro = ((rand() % 100) < 5);
+            celda->tierra_debajo->es_tesoro = ((rand() % 100) < 5);
             //printf("%d",((Tierra*)tablero[i][j])->vida);
 
         }
@@ -37,8 +42,9 @@ void ColocarBomba(Bomba* b, int fila, int columna){
     for (int j = 0; j < columna-1; j++){
         cont_colum++;
     }
-    Celda* celda = (Celda*)tablero[cont_fila][cont_colum];
-    celda->tiene_bomba = 1;
+    Bomba* celda = (Bomba*)tablero[cont_fila][cont_colum];
+    b = celda;
+    celda->contador_turnos = 1;
     
 
     return;
@@ -49,29 +55,28 @@ void MostrarTablero(){
     for (int i = 0; i < dimension; i++) { 
         int cont = 0;
         for (int j = 0; j < dimension; j++){  
-            Celda* celda = (Celda*)tablero[i][j];
+            Bomba* celda = (Bomba*)tablero[i][j];
             if (cont == 0){
                 printf(" ");
                 //printf("%d", ((Tierra*)tablero[i][j])->vida);
-                if (celda->tiene_bomba == 1){
+                if (celda->contador_turnos != 0){
                     printf("o");
 
                 }else{
-                    printf("%d", celda->tierra_celda.vida);
+                    printf("%d", celda->tierra_debajo->vida);
                 }
                 
             }    
                     
-            
             else{
                 printf(" | ");
                 //printf("%d", ((Tierra*)tablero[i][j])->vida);
                 ///printf("%d", celda->vida);
-                if (celda->tiene_bomba == 1){
+                if (celda->contador_turnos != 0){
                     printf("o");
 
                 }else{
-                    printf("%d", celda->tierra_celda.vida);
+                    printf("%d", celda->tierra_debajo->vida);
                 }
                     //printf("%d", celda->tierra_celda.vida);
              
@@ -108,15 +113,15 @@ void VerTesoros(){
     for (int i = 0; i < dimension; i++) { 
         int cont = 0;
         for (int j = 0; j < dimension; j++){  
-            Celda* celda = (Celda*)tablero[i][j];
+            Bomba* celda = (Bomba*)tablero[i][j];
             if (cont == 0){
                 printf(" ");
                 //printf("%d", ((Tierra*)tablero[i][j])->vida);
-                if (celda->tierra_celda.es_tesoro){
+                if (celda->tierra_debajo->es_tesoro){
                     printf("*");
 
                 }else{
-                    printf("%d", celda->tierra_celda.vida);
+                    printf("%d", celda->tierra_debajo->vida);
                 }
                 
             }    
@@ -126,11 +131,11 @@ void VerTesoros(){
                 printf(" | ");
                 //printf("%d", ((Tierra*)tablero[i][j])->vida);
                 ///printf("%d", celda->vida);
-                if (celda->tierra_celda.es_tesoro){
+                if (celda->tierra_debajo->es_tesoro){
                     printf("*");
 
                 }else{
-                    printf("%d", celda->tierra_celda.vida);
+                    printf("%d", celda->tierra_debajo->vida);
                 }
                     //printf("%d", celda->tierra_celda.vida);
              
@@ -150,7 +155,9 @@ void VerTesoros(){
 
 void BorrarTablero(){
     for (int i = 0; i < dimension; i++) {
-        for (int j = 0; j < dimension; j++) {
+        for (int j = 0; j < dimension; j++){
+            Bomba* celda = (Bomba*)tablero[i][j];
+            free(celda->tierra_debajo);
             free(tablero[i][j]);
         }
         free(tablero[i]);
