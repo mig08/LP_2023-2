@@ -8,22 +8,21 @@ void TryExplotar(int fila, int columna){
 }
 
 void BorrarBomba(int fila, int columna){
-    int cont_fila = 0;
-    int cont_colum = 0;
     
-    for (int i = 0; i < fila-1; i++){
-        cont_fila++;
-    }
-    for (int j = 0; j < columna-1; j++){
-        cont_colum++;
-    }   
+    Celda* celda = ((Celda*)tablero[fila-1][columna-1]);
+    Bomba* aux2 = (Bomba*)celda->estructura;
+
+    celda->estructura = aux2->tierra_debajo;
+    celda->tiene_bomba = 0;
+    free(aux2);
+
     
-    Celda* celda = (Celda*)tablero[cont_fila][cont_colum];
-    Tierra* tierra;
-    ((Bomba*)celda->estructura)->tierra_debajo = tierra;
-    free(celda->estructura);
-    celda->estructura = (void*)tierra;    
-    
+   // Bomba* aux2= celda->estructura;//Bomba
+
+    //celda->estructura = ((Bomba*)celda->estructura)->tierra_debajo; //tierra
+    //celda->tiene_bomba = 0;
+    //free(aux2);
+
     return;
 }
 

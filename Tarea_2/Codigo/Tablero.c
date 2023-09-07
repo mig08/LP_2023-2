@@ -8,10 +8,11 @@ void IniciarTablero(int n){
     for (int i = 0; i < n; i++){
         tablero[i] = (void**)malloc(n * sizeof(void*));
         for (int j = 0; j < n; j++){
-            tablero[i][j] = (void*)malloc(n * sizeof(Celda*));
+            tablero[i][j] = (Celda*)malloc(n * sizeof(Celda*));
             Celda* celda = (Celda*)tablero[i][j];
+            //Tierra* tierra = (Tierra*)malloc(sizeof(Tierra));
             Tierra* tierra = (Tierra*)malloc(sizeof(Tierra));
-            celda->estructura = (void*)tierra;
+            celda->estructura =(Tierra*)tierra;
             //Celda* celda = (Celda*)tablero[i][j];
             
             //((Tierra*)tablero[i][j])->vida = (rand() % 3) + 1;
@@ -32,6 +33,7 @@ void PasarTurno(){
 
 
 void ColocarBomba(Bomba* b, int fila, int columna){
+    /*
     int cont_fila = 0;
     int cont_colum = 0;
     
@@ -41,25 +43,26 @@ void ColocarBomba(Bomba* b, int fila, int columna){
     for (int j = 0; j < columna-1; j++){
         cont_colum++;
     }
-    Celda* celda = (Celda*)tablero[cont_fila][cont_colum];
+
+    */
+
+   
+    Celda* celda = (Celda*)tablero[fila-1][columna-1];
     
     Tierra* aux = celda->estructura;
     
-    //Tierra* tierra = (Tierra*)malloc(sizeof(Tierra));
+
     //tierra->vida = 100;
     //tierra->es_tesoro = 1;
-    free(((Tierra*)celda->estructura));
-    // Asigna memoria para una instancia de Bomba
-    Bomba* bomba = (Bomba*)malloc(sizeof(Bomba));
-    b = bomba;
-    bomba->contador_turnos = 3; // Por ejemplo
-    bomba->explotar = NULL; // Debes asignar una función adecuada aquí
-    bomba->tierra_debajo = aux;
+    // Asigna memoria para una instancia de Bomba   
+    b->contador_turnos = 3; // Por ejemplo
+    b->explotar = NULL; // Debes asignar una función adecuada aquí
+    b->tierra_debajo = aux;
 
 // ...
 
     // Luego, asigna bomba a celda
-    celda->estructura = (void*)bomba;
+    celda->estructura = (Bomba*)b;
     celda->tiene_bomba = 1;
     
 
@@ -133,8 +136,13 @@ void VerTesoros(){
             if (cont == 0){
                 printf(" ");
                 //printf("%d", ((Tierra*)tablero[i][j])->vida);
-                if (((Tierra*)celda->estructura)->es_tesoro){
-                    printf("*");
+                if (celda->tiene_bomba){
+                    if (((Tierra*)celda->estructura)->es_tesoro)
+                    {
+                        printf("*");
+                        /* code */
+                    }
+                    
 
                 }else{
                     printf("%d", ((Tierra*)celda->estructura)->vida);
@@ -171,9 +179,8 @@ void VerTesoros(){
 
 void BorrarTablero(){
     for (int i = 0; i < dimension; i++) {
-        for (int j = 0; j < dimension; j++){
-            Celda* celda = (Celda*)tablero[i][j];
-            free(celda->estructura);          
+        for (int j = 0; j < dimension; j++){     
+            free(((Celda*)tablero[i][j])->estructura);
             free(tablero[i][j]);
         }
         free(tablero[i]);
