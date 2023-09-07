@@ -5,6 +5,7 @@
 #include "Tablero.h"
 #include "Tablero.c"
 #include "Bomba.h"
+#include "Bomba.c"
 
 int main(int argc, char const *argv[])
 {
@@ -18,10 +19,15 @@ int main(int argc, char const *argv[])
 
     IniciarTablero(tam);
     MostrarTablero();
-    ColocarBomba(&b, 4, 6);
+    ColocarBomba(&b, 1, 2);
+    printf("\n");
+    MostrarTablero();
+    printf("\n");
     ColocarBomba(&b, 1, 1);
     printf("\n");
     MostrarTablero();
+    printf("\n");
+    BorrarBomba(1,1);
     printf("\n");
     VerTesoros();
     BorrarTablero();

@@ -16,8 +16,13 @@ void BorrarBomba(int fila, int columna){
     }
     for (int j = 0; j < columna-1; j++){
         cont_colum++;
-    }    
+    }   
     
+    Celda* celda = (Celda*)tablero[cont_fila][cont_colum];
+    Tierra* tierra;
+    ((Bomba*)celda->estructura)->tierra_debajo = tierra;
+    free(celda->estructura);
+    celda->estructura = (void*)tierra;    
     
     return;
 }
@@ -31,3 +36,4 @@ void ExplosionX(int fila, int columna){
     // Su codigo
     return;
 }
+ 
