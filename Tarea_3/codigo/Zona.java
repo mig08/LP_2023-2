@@ -6,7 +6,12 @@ public class Zona {
     }
     
     public void interactuar(Amarillo amarillo, Cyan cyan, Magenta magenta){
-        
+        if (completada == true){
+            System.out.println("No queda nada que hacer aqui");
+            return;
+        }else{
+            return;
+        }
     }    
 
 

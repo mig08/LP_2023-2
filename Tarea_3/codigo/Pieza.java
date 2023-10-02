@@ -27,7 +27,9 @@ public class Pieza extends Zona implements ILevantable {
         
         
         if ((this.completada == false) && levantable == true) {
-            System.out.println("");
+            System.out.println("Oli entre jiji");
+        }else{
+            System.out.println("cachando :3");
         }
     }
 
