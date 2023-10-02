@@ -1,4 +1,4 @@
-public abstract class Cyan extends Pikinim{
+public class Cyan extends Pikinim{
 
     public Cyan(){
         super();

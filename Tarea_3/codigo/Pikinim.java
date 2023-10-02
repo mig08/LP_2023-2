@@ -9,6 +9,19 @@ abstract class Pikinim {
         cantidad = 10;
     }
 
+
+    public int GetAtaque(){
+        return ataque;
+    }
+
+    public int GetCapacidad(){
+        return capacidad;
+    }
+
+    public int GetCantidad(){
+        return cantidad;
+    }
+
     abstract void disminuir(int cantidad);
 
     abstract void multiplicar(int cantidad);

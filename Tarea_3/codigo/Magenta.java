@@ -1,4 +1,4 @@
-public abstract class Magenta extends Pikinim{
+public class Magenta extends Pikinim{
     public Magenta(){
         super();
         ataque = 2;

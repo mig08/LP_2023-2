@@ -1,4 +1,4 @@
-public abstract class Amarillo extends Pikinim{
+public class Amarillo extends Pikinim{
     public Amarillo(){
         super();
         ataque = 1;
