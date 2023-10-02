@@ -1,3 +1,4 @@
-public class ILevantar {
+public interface ILevantar {
     
+    public void levantar();
 }
