@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import  java.util.Random;
 
 public class Enemigo extends Zona implements ILevantable{
     private int vida;
@@ -12,13 +13,19 @@ public class Enemigo extends Zona implements ILevantable{
         this.ataque = ataque;
     }
 
+
+    public void que_soy(){
+        System.out.print("Enemigo");
+    }
+
+
     public void interactuar(Amarillo amarillo, Cyan cyan, Magenta magenta){
         boolean ganar_perder = Pelear(amarillo, cyan, magenta);
 
         if (ganar_perder == true){
             levantar(amarillo, cyan, magenta);
         }else{
-            System.out.println("Perdiste :c");
+            System.out.println("Sigue vivo :o con "+ vida +" de vida");
         }
         
     }    
@@ -28,7 +35,7 @@ public class Enemigo extends Zona implements ILevantable{
         int ama = amarillo.cantidad * amarillo.capacidad;
         int cya = cyan.cantidad * cyan.capacidad;
         int mag = magenta.cantidad * magenta.cantidad;
-        
+
         if ((ama + cya + mag) >= peso){
             levantable = true;
         }else{
@@ -74,7 +81,8 @@ public class Enemigo extends Zona implements ILevantable{
 
 
     }
-
+    
+    Random rand = new Random();
     public boolean Pelear(Amarillo amarillo, Cyan cyan, Magenta magenta){
         int total = 0;
         int ama = amarillo.cantidad * amarillo.ataque;
@@ -83,9 +91,116 @@ public class Enemigo extends Zona implements ILevantable{
 
         total = ama + cya + mag;
         vida -= total;
+        int pikinim_atacado = rand.nextInt(3);
+        switch (pikinim_atacado) {
+            case 0:
+                if (amarillo.atacable()){
+                    amarillo.cantidad -= ataque;
+                    System.out.println("Amarillo fue atacado :c");
+
+                }else{
+                    pikinim_atacado = rand.nextInt(2);
+                    switch (pikinim_atacado) {
+                        case 0:
+                            if(cyan.atacable()){
+                                cyan.cantidad -= ataque;
+                                System.out.println("Cyan fue atacado :c");
+                            }else{
+                                magenta.cantidad -= ataque;
+                                System.out.println("Magenta fue atacado :c");
+                            }
+
+
+                            break;
+                    
+                        case 1:
+                            if(magenta.atacable()){
+                                magenta.cantidad -= ataque;
+                                System.out.println("Magenta fue atacado :c");
+                            }else{
+                                cyan.cantidad -= ataque;
+                                System.out.println("Cyan fue atacado :c");
+                            }
+                            break;
+                    }
+                }
+
+                break;
+        
+            case 1:
+                if (cyan.atacable()){
+                    cyan.cantidad -= ataque;
+                    System.out.println("Cyan fue atacado :c");
+
+                }else{
+                    pikinim_atacado = rand.nextInt(2);
+                    switch (pikinim_atacado) {
+                        case 0:
+                            if(amarillo.atacable()){
+                                amarillo.cantidad -= ataque;
+                                System.out.println("Amarillo fue atacado :c");
+                            }else{
+                                magenta.cantidad -= ataque;
+                                System.out.println("Magenta fue atacado :c");
+                            }
+
+
+                            break;
+                    
+                        case 1:
+                            if(magenta.atacable()){
+                                magenta.cantidad -= ataque;
+                                System.out.println("Magenta fue atacado :c");
+                            }else{
+                                amarillo.cantidad -= ataque;
+                                System.out.println("Amarillo fue atacado :c");
+                            }
+                            break;
+                    }
+                }
+                break;
+            case 2:
+                if (magenta.atacable()){
+                    magenta.cantidad -= ataque;
+                    System.out.println("Magenta fue atacado :c");
+
+                }else{
+                    pikinim_atacado = rand.nextInt(2);
+                    switch (pikinim_atacado) {
+                        case 0:
+                            if(cyan.atacable()){
+                                cyan.cantidad -= ataque;
+                                System.out.println("Cyan fue atacado :c");
+                            }else{
+                                amarillo.cantidad -= ataque;
+                                System.out.println("Amarillo fue atacado :c");
+                            }
+
+
+                            break;
+                    
+                        case 1:
+                            if(amarillo.atacable()){
+                                amarillo.cantidad -= ataque;
+                                System.out.println("Amarillo fue atacado :c");
+                            }else{
+                                cyan.cantidad -= ataque;
+                                System.out.println("Cyan fue atacado :c");
+                            }
+                            break;
+                    }
+                }
+
+                break;
+        }
+        if (vida <= 0){
+            return true;
+        }else{
+            return false;
+
+        }
         
         
-        return false;
     }
     
     public int GetVida(){

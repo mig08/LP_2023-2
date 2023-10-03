@@ -9,6 +9,9 @@
 
 JFLAGS = -g
 JC = javac
+JVM= java 
+FILE=
+
 
 		
 
@@ -41,13 +44,6 @@ JC = javac
 
 
 #
-# MAIN is a variable with the name of the file containing the main method
-#
-
-MAIN = Juego
-
-
-#
 # CLASSES is a macro consisting of N words (one for each java source file)
 # When a single line is too long, use \<return> to split lines that then will be
 # considered as a single line. For example:
@@ -57,14 +53,17 @@ MAIN = Juego
 # NAME = Camilo        Juan
 
 CLASSES = \
-
         Experiment.java \
         Block.java \
         Spring.java \
         PhysicsElement.java \
         Simulator.java
 
- 
+#
+# MAIN is a variable with the name of the file containing the main method
+#
+
+MAIN = Juego 
 
 #
 # the default make target entry
@@ -89,7 +88,7 @@ classes: $(CLASSES:.java=.class)
 # $(JMV) y $(MAIN) are replaced by their values
 
 run: $(MAIN).class
-	java $(MAIN)
+	$(JVM) $(MAIN) $(FILE)
 
 # this line is to remove all unneeded files from
 # the directory when we are finished executing(saves space)

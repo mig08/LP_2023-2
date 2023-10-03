@@ -6,6 +6,11 @@ public class Muralla extends Zona{
         this.vida = vida;
     }
     
+    public void que_soy(){
+        System.out.print("Muralla");
+    }
+
+
     public int GetVida(){
         return vida;
     }
@@ -44,3 +49,4 @@ public class Muralla extends Zona{
     }
 
 }
+

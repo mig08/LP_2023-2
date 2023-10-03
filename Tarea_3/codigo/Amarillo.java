@@ -5,6 +5,17 @@ public class Amarillo extends Pikinim{
         capacidad = 3;
     }
 
+    public boolean atacable(){
+        if (cantidad <= 0){
+            cantidad = 0;
+            return false;
+
+        }else{
+            return true;
+        }
+    }
+
+
     public int GetAtaque(){
         return ataque;
     }

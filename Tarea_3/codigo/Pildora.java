@@ -7,6 +7,11 @@ public class Pildora extends Zona{
         this.cantidad = cantidad;
     }
 
+
+    public void que_soy(){
+        System.out.print("Pildora");
+    }
+
     public void SetCantidad(int cantidad){
         this.cantidad = cantidad;
     }
@@ -14,14 +19,14 @@ public class Pildora extends Zona{
     public int GetCantidad(){
         return cantidad;
     }
-
+    
     public void interactuar(Amarillo amarillo, Cyan cyan, Magenta magenta){
+        Scanner sc = new Scanner(System.in); // Crear un objeto Scanner
         System.out.println("Qué color de pikinim desea que se multiplique? (cantidad a multiplicar: " + cantidad + ")");
         System.out.println("1.Cyan 2.Magenta 3.Amarillo");
-        Scanner scanner = new Scanner(System.in); // Crear un objeto Scanner
 
         System.out.print("Por favor ingresa un número: "); // Solicitar entrada al usuario
-        int numero = scanner.nextInt(); // Leer un entero del usuario
+        int numero = sc.nextInt(); // Leer un entero del usuario
 
         switch (numero) {
             case 1:
@@ -46,7 +51,7 @@ public class Pildora extends Zona{
         completada = true;
         
         // No olvides cerrar el Scanner al terminar de usarlo
-        scanner.close();
+        sc.close();
     
     }   
 

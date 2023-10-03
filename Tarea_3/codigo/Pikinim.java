@@ -14,5 +14,6 @@ abstract class Pikinim {
 
     abstract void multiplicar(int cantidad);
 
+    abstract boolean atacable();
 
 }

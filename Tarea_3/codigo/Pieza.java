@@ -6,7 +6,11 @@ public class Pieza extends Zona implements ILevantable {
         this.peso = peso;
     }
 
+    public void que_soy(){
+        System.out.print("Pieza (peso - "+ peso +")");
+    }
 
+    
     public void interactuar(Amarillo amarillo, Cyan cyan, Magenta magenta){
         levantar(amarillo, cyan, magenta);
     }    

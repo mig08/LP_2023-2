@@ -6,6 +6,16 @@ public class Cyan extends Pikinim{
         capacidad = 1;
     }
 
+    public boolean atacable(){
+        if (cantidad <= 0){
+            cantidad = 0;
+            return false;
+
+        }else{
+            return true;
+        }
+    }
+
     public int GetAtaque(){
         return ataque;
     }
