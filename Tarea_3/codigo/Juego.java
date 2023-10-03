@@ -1,6 +1,4 @@
-
-
-public class Juego {
+public class Juego{
     public static void main(String[] args){
 
     Zona[] Zonas;
@@ -45,12 +43,14 @@ public class Juego {
 
     p5.levantar(amaPikinim,cyaPikinim,magPikinim);
     System.out.println(amaPikinim.GetAtaque());
-
-
+    //p3.interactuar(amaPikinim, cyaPikinim, magPikinim);
+    p10.interactuar(amaPikinim, cyaPikinim, magPikinim);
+    p10.interactuar(amaPikinim, cyaPikinim, magPikinim);
+    p10.interactuar(amaPikinim, cyaPikinim, magPikinim);
+    p10.interactuar(amaPikinim, cyaPikinim, magPikinim);
     
 
 
-    
 
     }
 

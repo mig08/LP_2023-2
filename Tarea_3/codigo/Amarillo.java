@@ -5,6 +5,18 @@ public class Amarillo extends Pikinim{
         capacidad = 3;
     }
 
+    public int GetAtaque(){
+        return ataque;
+    }
+
+    public int GetCapacidad(){
+        return capacidad;
+    }
+
+    public int GetCantidad(){
+        return cantidad;
+    }
+
     public void disminuir(int cantidad){
         this.cantidad -= cantidad;
     }
