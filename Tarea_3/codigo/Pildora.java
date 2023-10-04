@@ -51,7 +51,6 @@ public class Pildora extends Zona{
         completada = true;
         
         // No olvides cerrar el Scanner al terminar de usarlo
-        sc.close();
     
     }   
 

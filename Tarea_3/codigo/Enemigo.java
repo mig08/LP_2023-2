@@ -71,7 +71,7 @@ public class Enemigo extends Zona implements ILevantable{
 
             }
             completada = true;
-            scanner.close();
+
 
 
         }else{

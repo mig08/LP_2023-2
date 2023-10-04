@@ -72,7 +72,8 @@ public class Juego{
             System.out.println("3. Quedarse aquí ");
 
             System.out.print("Por favor ingresa un número: "); // Solicitar entrada al usuario
-            int numero = scanner.nextInt(); // Leer un entero del usuario
+            int numero = 0;
+            numero =  scanner.nextInt(); // Leer un entero del usuario
 
             switch (numero) {
                 case 1:
@@ -112,8 +113,7 @@ public class Juego{
             }
                 
                 
-                
-                
+            
             turno+=1;
             System.out.println("");
         }
