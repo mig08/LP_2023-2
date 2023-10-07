@@ -41,28 +41,34 @@ public class Juego{
         Enemigo p9 = new Enemigo(75, 15, 20);
         Zonas[9] = p9;
 
-        Zona p10 = new Muralla(150);
+        Muralla p10 = new Muralla(150);
         Zonas[10] = p10;
 
         Amarillo amaPikinim = new Amarillo();
         Cyan cyaPikinim = new Cyan();
         Magenta magPikinim = new Magenta();
-        
+
         Scanner scanner = new Scanner(System.in); // Crear un objeto Scanner
+        System.out.println("Eres el capitán Lomiar. Tu nave chocó con un asteroide en tu viaje de rutina y ahora estas en un planeta extraño con criaturas extrañas. No hay oxigeno en este planeta. ¡Debes buscar las piezas de tu nave con la ayuda de los Pikinims y reparar la nave! Antes de que sea demasiado tarde...");
+        System.out.println("");
+        System.out.println("Tienes 30 horas...");
+        System.out.println("");
+        try {Thread.sleep(5000);}catch(Exception e){System.out.println(e);}
         while ((turno <= 30) && (perdio != true) && (gano != true)){
-            System.out.println("Turno "+ turno + " (Cyan - "+cyaPikinim.cantidad+", Amarillo - "+amaPikinim.cantidad+", Magenta - "+magPikinim.cantidad+")");
+            System.out.println("TURNO "+ turno + " (Cyan - "+cyaPikinim.cantidad+", Amarillo - "+amaPikinim.cantidad+", Magenta - "+magPikinim.cantidad+")");
+            System.out.println("Aun quedan "+Pieza.GetPiezas()+" piezas...");
             System.out.print("Zona Actual: ");
             Zonas[posicion].que_soy();
             System.out.println("");
             System.out.println("Opciones: ");
-            System.out.print("1. Ir a la derecha (");
+            System.out.print("1. Ir a la izquierda (");
             if (posicion-1 == -1){
                 System.out.print("No hay mas alla");
             }else{
                 Zonas[posicion-1].que_soy();
             }
             System.out.print(") ");
-            System.out.print("2. Ir a la izquierda (");
+            System.out.print("2. Ir a la derecha (");
             if (posicion+1 == 11){
                 System.out.print("No hay mas alla");
             }else{
@@ -71,56 +77,86 @@ public class Juego{
             System.out.print(") ");
             System.out.println("3. Quedarse aquí ");
 
+            System.out.println("Estamos en posicion: "+posicion);
             System.out.print("Por favor ingresa un número: "); // Solicitar entrada al usuario
             int numero = 0;
+            try {Thread.sleep(1000);}catch(Exception e){System.out.println(e);}
             numero =  scanner.nextInt(); // Leer un entero del usuario
-
-            switch (numero) {
+            System.out.println("");
+            switch (numero){
                 case 1:
-                    posicion-= 1;
-                    if (posicion <= 0){
-                        posicion = 0;
-                    }
-                    if(Zonas[posicion].GetCompletada()){
-                        System.out.println("Se completo ya");
+                    if ((Zonas[posicion].getClass().getName() == "Muralla") && !Zonas[posicion].GetCompletada()) {
+                        System.out.println("Hay una muralla que impide el paso :o, para intentar romperla quedate en la zona");
+                        try {Thread.sleep(2500);}catch(Exception e){System.out.println(e);}
+                        turno-=1;
                     }else{
+                        posicion-= 1;
+
+                        if (posicion <= 0){
+                            posicion = 0;
+                            turno-=1;
+                        }
+
                         Zonas[posicion].interactuar(amaPikinim, cyaPikinim, magPikinim);
-                    }
+                        }
+
                     break;
         
                 case 2:
-                    posicion += 1;
-                    if (posicion >= 10){
-                        posicion = 10;
-                    }
-                    if(Zonas[posicion].GetCompletada()){
-                        System.out.println("Se completo ya");
+                    if ((Zonas[posicion].getClass().getName() == "Muralla") && !Zonas[posicion].GetCompletada()) {
+                        System.out.println("Hay una muralla que impide el paso :o, para intentar romperla quedate en la zona");
+                        turno-=1;
+
                     }else{
-                        System.out.println("Hay cosas que hacer");
+
+                        posicion += 1;
+                        if (posicion >= 10){
+                            posicion = 10;
+                            turno-=1;
+                        }
                         Zonas[posicion].interactuar(amaPikinim, cyaPikinim, magPikinim);
+
                     }
+                    
                     break;
 
                 case 3:
-                    System.out.println("Me quede aqui :3");
-                    if(Zonas[posicion].GetCompletada()){
-                        System.out.println("Se completo ya");
-                    }else{
-                        Zonas[posicion].interactuar(amaPikinim, cyaPikinim, magPikinim);
-                    }
+                    System.out.println("Decidimos quedarnos aca");
+                    Zonas[posicion].interactuar(amaPikinim, cyaPikinim, magPikinim);
+
                     break;
 
             }
                 
-                
+            if (amaPikinim.GetCantidad() == 0 && cyaPikinim.GetCantidad() == 0 && magPikinim.GetCantidad() == 0) {
+                perdio = true;
+            }
             
+
             turno+=1;
+            if (Pieza.GetPiezas() == 0) {
+                gano = true;
+                
+            }
+
             System.out.println("");
         }
+
+
+        if (perdio == true){
+            System.out.println("No quedan pikimins :c, perdiste");
+            System.out.println("");
+        }else if (gano == true){
+            System.out.println("Conseguiste todas las piezas y pudiste volver vivo, ganaste c:");
+            System.out.println("");
+        }else if(turno == 31){
+            System.out.println("Se acabaron las horas de oxigeno :c, perdiste");
+            System.out.println("");
+        }
+
+        
         scanner.close();
         
-
-
     }
 
 
