@@ -10,4 +10,5 @@
     (if (= x cantidad)
         true
         false)))
-  
+
+(chekear 0 '())
