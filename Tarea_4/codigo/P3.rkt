@@ -67,3 +67,8 @@
 
 
 (armar_lista '((3 (cebolla cebolla)) (3 (tomate tomate tomate)) (2 (ajo))))
+      
+    
+
+
+(armar_lista '((5 (cebolla cebolla)) (3 (tomate tomate tomate)) (2 (ajo))))

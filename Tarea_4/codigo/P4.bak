@@ -1,4 +1,1 @@
 #lang scheme
-
-(define (buscar_recetas ingrediente lista)
-  

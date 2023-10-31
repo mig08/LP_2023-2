@@ -20,4 +20,7 @@
     (if (= x cantidad)
         true
         false)))
-  
+
+(chekear 4 '(a b c d))
+(chekear 2 '(a a c d e w w q t a v))
+(chekear 0 '())
