@@ -1,0 +1,13 @@
+cifrado([0,0], a).
+cifrado([0,1], g).
+cifrado([1,0], c).
+cifrado([1,1], t).
+
+descifrar([], []).
+
+descifrar([X1, X2 | Resto], [Letra | Mensaje]):-
+    cifrado([X1, X2], Letra),
+    write('X1: '), writeln(X1),
+    write('X2: '), writeln(X2),
+    write('Letra: '), writeln(Letra),
+    descifrar(Resto, Mensaje).
